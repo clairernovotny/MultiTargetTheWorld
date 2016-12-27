@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net45;netstandard1.3;uap10.0</TargetFrameworks>
+    <TargetFrameworks>net45;netstandard1.3;uap10.0;Xamarin.iOS10;MonoAndroid70</TargetFrameworks>
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
     <DefaultLanguage>en-US</DefaultLanguage>
   </PropertyGroup>
@@ -15,26 +15,78 @@
     <DefineConstants>$(DefineConstants);WINDOWS_UWP</DefineConstants>
     <LanguageTargets>$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets</LanguageTargets>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'Xamarin.iOS10'">
+    <TargetFrameworkIdentifier>Xamarin.iOS</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v1.0</TargetFrameworkVersion>
+    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+    <DefineConstants>$(DefineConstants);IOS1_0</DefineConstants>
+    <DebugType>full</DebugType>
+    <LanguageTargets>$(MSBuildProgramFiles32)\MSBuild\Xamarin\iOS\Xamarin.iOS.CSharp.targets</LanguageTargets>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'MonoAndroid70'">
+    <TargetFrameworkIdentifier>MonoAndroid</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v7.0</TargetFrameworkVersion>
+    <AndroidUseLatestPlatformSdk>False</AndroidUseLatestPlatformSdk>
+    <DebugType>full</DebugType>
+    <DefineConstants>$(DefineConstants);MONOANDROID7_0</DefineConstants>
+    <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
+    <LanguageTargets>$(MSBuildProgramFiles32)\MSBuild\Xamarin\Android\Xamarin.Android.CSharp.targets</LanguageTargets>
+  </PropertyGroup>
   <ItemGroup>
-    <Compile Include="**\*.cs" Exclude="Platforms\**\*.cs;Resource\**\*.*" />
-    <None Include="Platforms\**\*.cs;Resource\**\*.*" />
+    <Compile Include="**\*.cs" Exclude="Platforms\**\*.cs;Resources\**\*.cs" />
+    <None Include="Platforms\**\*.cs;Resources\**\*.*" />
     <EmbeddedResource Include="**\*.resx" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' != 'net45' ">
     <PackageReference Include="NETStandard.Library" Version="1.6.1" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
     <Compile Include="Platforms\net45\**\*.cs" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
     <Compile Include="Platforms\netstandard1.3\**\*.cs" />
   </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'xamarin.ios10' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'Xamarin.iOS10' ">
+    <Reference Include="System" />
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Collections" />
+    <Reference Include="System.Threading.Tasks" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="Xamarin.iOS" />
     <Compile Include="Platforms\xamarin.ios10\**\*.cs" />
   </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'monoandroid70' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'MonoAndroid70' ">
+    <Reference Include="Mono.Android" />
+    <Reference Include="System" />
+    <Reference Include="System.Collections" />
+    <Reference Include="System.Threading.Tasks" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Threading.Tasks" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml" />
     <Compile Include="Platforms\monoandroid70\**\*.cs" />
-    <Compile Include="Resource\**\*.cs" />
+    <Compile Include="Resources\**\*.cs" />
+    <AndroidResource Include="Resources\**\*.axml" />
+    <AndroidResource Include="Resources\**\*.xml" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'uap10.0' ">
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform " Version="5.2.2" />
