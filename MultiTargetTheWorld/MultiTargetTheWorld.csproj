@@ -1,16 +1,43 @@
-<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard1.4</TargetFramework>
+    <TargetFrameworks>net45;netstandard1.3;uap10.0</TargetFrameworks>
+    <Product>$(AssemblyName) ($(TargetFramework))</Product>
+    <DefaultLanguage>en-US</DefaultLanguage>
   </PropertyGroup>
-
+  <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0'">
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <NugetTargetMoniker>UAP,Version=v10.0</NugetTargetMoniker>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
+    <TargetFrameworkIdentifier>.NETCore</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+    <DefineConstants>$(DefineConstants);WINDOWS_UWP</DefineConstants>
+    <LanguageTargets>$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets</LanguageTargets>
+  </PropertyGroup>
   <ItemGroup>
-    <Compile Include="**\*.cs" />
+    <Compile Include="**\*.cs" Exclude="Platforms\**\*.cs;Resource\**\*.*" />
+    <None Include="Platforms\**\*.cs;Resource\**\*.*" />
     <EmbeddedResource Include="**\*.resx" />
   </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="NETStandard.Library" Version="1.6" />
+  <ItemGroup Condition=" '$(TargetFramework)' != 'net45' ">
+    <PackageReference Include="NETStandard.Library" Version="1.6.1" />
   </ItemGroup>
-
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+    <Compile Include="Platforms\net45\**\*.cs" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
+    <Compile Include="Platforms\netstandard1.3\**\*.cs" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'xamarin.ios10' ">
+    <Compile Include="Platforms\xamarin.ios10\**\*.cs" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'monoandroid70' ">
+    <Compile Include="Platforms\monoandroid70\**\*.cs" />
+    <Compile Include="Resource\**\*.cs" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'uap10.0' ">
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform " Version="5.2.2" />
+    <Compile Include="Platforms\uap10.0\**\*.cs" />
+  </ItemGroup>
 </Project>
