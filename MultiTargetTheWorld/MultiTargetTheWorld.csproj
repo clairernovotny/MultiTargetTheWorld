@@ -34,6 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="**\*.cs" Exclude="Platforms\**\*.cs;Resources\**\*.cs" />
+    <!-- This is here so that the conditionally included files below are all visible in VS -->
     <None Include="Platforms\**\*.cs;Resources\**\*.*" />
     <EmbeddedResource Include="**\*.resx" />
   </ItemGroup>
