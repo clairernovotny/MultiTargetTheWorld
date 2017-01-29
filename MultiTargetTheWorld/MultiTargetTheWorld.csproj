@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net45;netstandard1.3;uap10.0;Xamarin.iOS10;MonoAndroid70</TargetFrameworks>
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
@@ -33,13 +33,9 @@
     <LanguageTargets>$(MSBuildProgramFiles32)\MSBuild\Xamarin\Android\Xamarin.Android.CSharp.targets</LanguageTargets>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="**\*.cs" Exclude="Platforms\**\*.cs;Resources\**\*.cs" />
+    <Compile Remove="Platforms\**\*.cs;Resources\**\*.cs" />
     <!-- This is here so that the conditionally included files below are all visible in VS -->
     <None Include="Platforms\**\*.cs;Resources\**\*.*" />
-    <EmbeddedResource Include="**\*.resx" />
-  </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' != 'net45' ">
-    <PackageReference Include="NETStandard.Library" Version="1.6.1" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
     <Reference Include="System" />
